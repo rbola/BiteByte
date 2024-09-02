@@ -72,7 +72,35 @@ The project is divided into two main parts:
     ```sh
     ./gradlew bootRun
     ```
+5. Configure the application properties file
+```
+spring.data.mongodb.uri=mongodb+srv://<username>:<password>@<cluster>.umrcw.mongodb.net/?retryWrites=true&w=majority&appName=bitebyte
 
+spring.data.mongodb.database=bitebyte
+spring.data.mongodb.auto-index-creation=false
+
+spring.ai.openai.api-key= <OpenAI Key>
+spring.ai.openai.model=gpt-4o
+spring.ai.openai.urls.base=https://api.openai.com
+spring.ai.openai.urls.chat-completion=/v1/chat/completions
+
+# JWT Configuration
+jwt.secret= <JWT>
+jwt.expiration=86400000
+jwt.expiration.ms=3600000
+
+# Add this line
+app.jwtSecret=${jwt.secret}
+
+# Server configuration
+server.port=8080
+
+# Disable context path
+server.servlet.context-path=
+
+# Vector store configuration
+spring.ai.vectorstore.name=vector_store
+ ```
 ### Frontend Setup
 
 1. Navigate to the client directory:
