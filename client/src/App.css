@@ -1,0 +1,124 @@
+/* General styles */
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* Light theme styles */
+.light-theme {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.light-theme .navigation {
+  background-color: #f0f0f0;
+  color: #000000;
+}
+
+.light-theme .navigation-item a {
+  color: #000000; /* Black text for light theme */
+}
+
+.light-theme .navigation-button {
+  background-color: #4CAF50; /* Green background */
+  color: white;
+  font-size: 16px;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.light-theme .navigation-button:hover {
+  background-color: #45a049;
+}
+
+/* Dark theme styles */
+.dark-theme {
+  background-color: #333333;
+  color: #ffffff;
+}
+
+.dark-theme .navigation {
+  background-color: #444444;
+  color: #ffffff;
+}
+
+.dark-theme .navigation-item a {
+  color: #ffffff; /* White text for dark theme */
+}
+
+.dark-theme .navigation-button {
+  background-color: #555555;
+  color: white;
+  font-size: 16px;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.dark-theme .navigation-button:hover {
+  background-color: #666666;
+}
+
+/* Form styles */
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 15px;
+  width: 300px;
+}
+
+form label {
+  margin-bottom: 5px;
+  font-size: 16px;
+}
+
+form input {
+  padding: 10px;
+  font-size: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+form button {
+  background-color: #4CAF50; /* Green background */
+  color: white;
+  font-size: 16px;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  margin: 10px 0;
+}
+
+form button:hover {
+  background-color: #45a049;
+}
+
+.switch-links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.switch-link {
+  color: #008CBA; /* Blue text */
+  font-size: 16px;
+  text-decoration: none;
+  margin: 5px 0;
+  cursor: pointer;
+}
+
+.switch-link:hover {
+  color: #007bb5;
+}
