@@ -1,70 +1,115 @@
-# Getting Started with Create React App
+# BiteByte
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+BiteByte is a web application that allows users to customize recipes using AI, add and view recipes, and participate in live cooking classes.
 
-## Available Scripts
+## Table of Contents
 
-In the project directory, you can run:
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [API Endpoints](#api-endpoints)
+- [Contributing](#contributing)
+- [License](#license)
 
-### `npm start`
+## Features
 
-Runs the app in the development mode.\
-Open [http://localhost:5173](http://localhost:5173) to view it in your browser.
+- AI Recipe Customization
+- Add and View Recipes
+- Participate in Live Cooking Classes
+- User Authentication and Authorization
+- Dark and Light Theme Toggle
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Installation
 
-### `npm test`
+### Prerequisites
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- [Node.js](https://nodejs.org/)
+- [npm](https://www.npmjs.com/)
+- [Java JDK](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html)
+- [Maven](https://maven.apache.org/)
 
-### `npm run build`
+### Backend Setup
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+1. Clone the repository:
+    ```sh
+    git clone https://github.com/yourusername/BiteByte.git
+    cd BiteByte
+    ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+2. Navigate to the backend directory:
+    ```sh
+    cd src/main/java/com/main/bitebyte
+    ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+3. Build the project using Maven:
+    ```sh
+    mvn clean install
+    ```
 
-### `npm run eject`
+4. Run the Spring Boot application:
+    ```sh
+    mvn spring-boot:run
+    ```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Frontend Setup
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+1. Navigate to the client directory:
+    ```sh
+    cd client
+    ```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+2. Install the dependencies:
+    ```sh
+    npm install
+    ```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+3. Start the development server:
+    ```sh
+    npm start
+    ```
 
-## Learn More
+## Usage
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+1. Open your browser and navigate to `http://localhost:3000`.
+2. Sign up or sign in to your account.
+3. Use the navigation bar to access different features like adding recipes, viewing recipes, and participating in live cooking classes.
+4. Customize recipes using the AI Recipe Customization feature.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## API Endpoints
 
-### Code Splitting
+### Authentication
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- `POST /api/auth/signup` - Sign up a new user
+- `POST /api/auth/signin` - Sign in an existing user
 
-### Analyzing the Bundle Size
+### Recipes
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- `GET /api/recipes` - Get all recipes
+- `GET /api/recipes/{id}` - Get a specific recipe by ID
+- `POST /api/recipes` - Add a new recipe (Admin only)
+- `PUT /api/recipes/{id}` - Update a recipe (Admin only)
+- `DELETE /api/recipes/{id}` - Delete a recipe (Admin only)
 
-### Making a Progressive Web App
+### Live Cooking Classes
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- `GET /api/live-classes` - Get all live cooking classes
+- `POST /api/live-classes` - Add a new live cooking class (Admin only)
 
-### Advanced Configuration
+### AI Recipe Customization
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+- `POST /api/ai-customization` - Customize a recipe using AI
 
-### Deployment
+## Contributing
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Contributions are welcome! Please follow these steps to contribute:
 
-### `npm run build` fails to minify
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature/your-feature`).
+3. Make your changes.
+4. Commit your changes (`git commit -m 'Add some feature'`).
+5. Push to the branch (`git push origin feature/your-feature`).
+6. Open a pull request.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
