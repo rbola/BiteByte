@@ -3,7 +3,8 @@ package com.main.bitebyte;
 
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
-import com.main.bitebyte.config.RepositoryConfig;
+
+import com.main.bitebyte.common.RepositoryConfig;
 
 
 @SpringBootTest
