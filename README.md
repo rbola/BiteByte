@@ -2,6 +2,8 @@
 
 BiteByte is a web application that allows users to customize recipes using AI, add and view recipes, and participate in live cooking classes.
 
+![Demo of the app](/demobitebyte.gif)
+
 ## Table of Contents
 
 - [Features](#features)
