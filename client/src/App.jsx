@@ -21,6 +21,7 @@ function App() {
   const [signUpForm, setSignUpForm] = useState({ username: '', password: '', email: '' });
   const [signInForm, setSignInForm] = useState({ username: '', password: '' });
   const [isDarkTheme, setIsDarkTheme] = useState(false);
+  const isDevEnvironment = import.meta.env.VITE_APP_ENV === 'development';
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -173,13 +174,17 @@ function App() {
           <Route path="/" element={<UserHome userRole={userRole} />} />
           <Route path="/recipes" element={<RecipeList />} />
           <Route path="/recipes/:id" element={<ViewRecipe />} />
-          <Route path="/live-classes" element={<LiveCookingClasses />} />
+          {isDevEnvironment && (
+            <>
+              <Route path="/live-classes" element={<LiveCookingClasses />} />
+              {userRole.includes('ADMIN') && (
+                <Route path="/add-live-class" element={<AddLiveCookingClass />} />
+              )}
+            </>
+          )}
           <Route path="/ai-customization" element={<AIRecipeCustomization />} />
           {userRole.includes('ADMIN') && (
-            <>
-              <Route path="/add-recipe" element={<AddRecipe />} />
-              <Route path="/add-live-class" element={<AddLiveCookingClass />} />
-            </>
+            <Route path="/add-recipe" element={<AddRecipe />} />
           )}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

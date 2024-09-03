@@ -53,13 +53,26 @@ function ViewRecipe() {
     return <div>Loading...</div>;
   }
 
+  const renderInstructions = (instructions) => {
+    if (!instructions) {
+      return 'No instructions available.';
+    }
+    if (Array.isArray(instructions)) {
+      return instructions.join('\n');
+    }
+    if (typeof instructions === 'string') {
+      return instructions;
+    }
+    return JSON.stringify(instructions);
+  };
+
   return (
     <div className="view-recipe-container">
       <h2>{recipe.name}</h2>
       <p><strong>Ingredients:</strong></p>
-      <pre>{recipe.ingredients}</pre>
+      <pre className="recipe-text">{recipe.ingredients}</pre>
       <p><strong>Instructions:</strong></p>
-      <pre>{recipe.instructions}</pre>
+      <pre className="recipe-text">{renderInstructions(recipe.instructions)}</pre>
 
       <div className="ai-customization-section">
         <h3>AI Recipe Customization</h3>
@@ -82,7 +95,7 @@ function ViewRecipe() {
         {customizedRecipe && (
           <div className="customized-recipe">
             <h4>Customized Recipe:</h4>
-            <pre>{customizedRecipe}</pre>
+            <pre className="recipe-text">{renderInstructions(customizedRecipe)}</pre>
           </div>
         )}
       </div>

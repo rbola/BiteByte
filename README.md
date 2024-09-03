@@ -24,7 +24,16 @@ BiteByte is a web application that allows users to customize recipes using AI, a
 
 The project is divided into two main parts:
 
-1. **Backend**: A Spring Boot application that handles the API and business logic.
+1. **Backend**: A modular monolithic Spring Boot application that handles the API and business logic. The backend is divided into the following modules:
+    - **ai**: Handles AI-related functionalities using OpenAI.
+    - **common**: Contains common utilities and configurations used across other modules.
+    - **ecommerce**: Manages e-commerce related functionalities.
+    - **livecooking**: Manages live cooking classes.
+    - **recipe**: Manages recipe-related functionalities.
+    - **security**: Handles user authentication and authorization.
+    - **user**: Manages user-related functionalities.
+    - **util**: Contains utility classes and methods.
+
 2. **Frontend**: A React application that provides the user interface.
 
 ### Technologies Used
@@ -72,35 +81,37 @@ The project is divided into two main parts:
     ```sh
     ./gradlew bootRun
     ```
-5. Configure the application properties file
-```
-spring.data.mongodb.uri=mongodb+srv://<username>:<password>@<cluster>.umrcw.mongodb.net/?retryWrites=true&w=majority&appName=bitebyte
 
-spring.data.mongodb.database=bitebyte
-spring.data.mongodb.auto-index-creation=false
+5. Configure the application properties file:
+    ```properties
+    spring.data.mongodb.uri=mongodb+srv://<username>:<password>@<cluster>.umrcw.mongodb.net/?retryWrites=true&w=majority&appName=bitebyte
 
-spring.ai.openai.api-key= <OpenAI Key>
-spring.ai.openai.model=gpt-4o
-spring.ai.openai.urls.base=https://api.openai.com
-spring.ai.openai.urls.chat-completion=/v1/chat/completions
+    spring.data.mongodb.database=bitebyte
+    spring.data.mongodb.auto-index-creation=false
 
-# JWT Configuration
-jwt.secret= <JWT>
-jwt.expiration=86400000
-jwt.expiration.ms=3600000
+    spring.ai.openai.api-key= <OpenAI Key>
+    spring.ai.openai.model=gpt-4o
+    spring.ai.openai.urls.base=https://api.openai.com
+    spring.ai.openai.urls.chat-completion=/v1/chat/completions
 
-# Add this line
-app.jwtSecret=${jwt.secret}
+    # JWT Configuration
+    jwt.secret= <JWT>
+    jwt.expiration=86400000
+    jwt.expiration.ms=3600000
 
-# Server configuration
-server.port=8080
+    # Add this line
+    app.jwtSecret=${jwt.secret}
 
-# Disable context path
-server.servlet.context-path=
+    # Server configuration
+    server.port=8080
 
-# Vector store configuration
-spring.ai.vectorstore.name=vector_store
- ```
+    # Disable context path
+    server.servlet.context-path=
+
+    # Vector store configuration
+    spring.ai.vectorstore.name=vector_store
+    ```
+
 ### Frontend Setup
 
 1. Navigate to the client directory:
