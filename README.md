@@ -29,7 +29,6 @@ The project is divided into two main parts:
 1. **Backend**: A modular monolithic Spring Boot application that handles the API and business logic. The backend is divided into the following modules:
     - **ai**: Handles AI-related functionalities using OpenAI.
     - **common**: Contains common utilities and configurations used across other modules.
-    - **ecommerce**: Manages e-commerce related functionalities.
     - **livecooking**: Manages live cooking classes.
     - **recipe**: Manages recipe-related functionalities.
     - **security**: Handles user authentication and authorization.
