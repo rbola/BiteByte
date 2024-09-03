@@ -1,6 +1,6 @@
 # BiteByte
 
-BiteByte is a web application that allows users to customize recipes using AI, add and view recipes, and participate in live cooking classes.
+BiteByte is a react web app powered by a Spring AI and MongoDB.
 
 ![Demo of the app](/demobitebyte.gif)
 
