@@ -1,4 +1,5 @@
 # BiteByte
+
 BiteByte is a react web app powered by a Spring AI and MongoDB.
 
 ![Demo of the app](/demobitebyte.gif)
