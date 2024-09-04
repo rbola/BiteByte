@@ -13,7 +13,7 @@ function RecipeList() {
 
   const fetchRecipes = async () => {
     try {
-      const response = await axios.get('/api/recipes/public');
+      const response = await axios.get('/api/recipes/all');
       console.log('Recipes response:', response.data); // For debugging
       setRecipes(response.data);
       setError(null);

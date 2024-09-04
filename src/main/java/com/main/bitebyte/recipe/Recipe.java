@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import com.main.bitebyte.user.User; 
+
 @Document(collection = "recipes")
 public class Recipe {
 
@@ -20,6 +22,8 @@ public class Recipe {
     private int cookingTime;
     private int servings;
     private String nutritionalInfo;
+    private User user;
+    private boolean personal;
 
     public Recipe() {}
 
@@ -118,5 +122,21 @@ public class Recipe {
 
     public void setNutritionalInfo(String nutritionalInfo) {
         this.nutritionalInfo = nutritionalInfo;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setPersonal(boolean personal) {
+        this.personal = personal;
+    }
+
+    public boolean isPersonal() {
+        return personal;
     }
 }

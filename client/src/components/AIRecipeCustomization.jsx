@@ -7,8 +7,10 @@ function AIRecipeCustomization() {
   const [selectedRecipeId, setSelectedRecipeId] = useState('');
   const [customizationPrompt, setCustomizationPrompt] = useState('');
   const [customizedRecipe, setCustomizedRecipe] = useState('');
+  const [customizationId, setCustomizationId] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [saveSuccess, setSaveSuccess] = useState(false);
 
   useEffect(() => {
     fetchRecipes();
@@ -28,7 +30,8 @@ function AIRecipeCustomization() {
     e.preventDefault();
     setLoading(true);
     setError('');
-    setCustomizedRecipe(''); // Clear previous customization
+    setCustomizedRecipe('');
+    setSaveSuccess(false);
     try {
       const response = await axios.post('/api/ai-recipe-customization', { 
         recipeId: selectedRecipeId,
@@ -36,6 +39,7 @@ function AIRecipeCustomization() {
       });
       if (response.data && response.data.customizedRecipe) {
         setCustomizedRecipe(response.data.customizedRecipe);
+        setCustomizationId(response.data.id);
       } else {
         throw new Error('Customized recipe not received from server');
       }
@@ -47,10 +51,36 @@ function AIRecipeCustomization() {
     }
   };
 
+  const handleSaveCustomizedRecipe = async () => {
+    setLoading(true);
+    setError('');
+    setSaveSuccess(false);
+    try {
+      const response = await axios.post('/api/ai-recipe-customization/save', {
+        customizationId: customizationId,
+        customizedRecipe: customizedRecipe,
+        originalRecipeId: selectedRecipeId
+      });
+      if (response.data && response.data.savedRecipe) {
+        setSaveSuccess(true);
+        // Refresh the recipe list after saving
+        fetchRecipes();
+      } else {
+        throw new Error('Failed to save customized recipe');
+      }
+    } catch (error) {
+      console.error('Error saving customized recipe:', error.response || error);
+      setError('Error saving customized recipe. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="ai-customization-container">
       <h2>AI Recipe Customization</h2>
       {error && <div className="error-message">{error}</div>}
+      {saveSuccess && <div className="success-message">Customized recipe saved successfully!</div>}
       <form onSubmit={handleCustomization} className="ai-customization-form">
         <div className="form-group">
           <label htmlFor="recipeSelect">Select a recipe:</label>
@@ -86,6 +116,13 @@ function AIRecipeCustomization() {
         <div className="customized-recipe">
           <h3>Customized Recipe:</h3>
           <pre>{customizedRecipe}</pre>
+          <button 
+            onClick={handleSaveCustomizedRecipe} 
+            className="save-button" 
+            disabled={loading}
+          >
+            {loading ? 'Saving...' : 'Save Customized Recipe'}
+          </button>
         </div>
       )}
     </div>

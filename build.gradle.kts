@@ -19,7 +19,7 @@ repositories {
     maven { url = uri("https://repo.spring.io/milestone") }
 }
 
-extra["springAiVersion"] = "1.0.0-M1"
+val springAiVersion by extra { "1.0.0-M1" }
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
@@ -40,7 +40,7 @@ dependencies {
 
 dependencyManagement {
     imports {
-        mavenBom("org.springframework.ai:spring-ai-bom:${property("springAiVersion")}")
+        mavenBom("org.springframework.ai:spring-ai-bom:${springAiVersion}")
     }
 }
 
@@ -48,6 +48,6 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
-tasks.bootRun {
+tasks.named<org.springframework.boot.gradle.tasks.run.BootRun>("bootRun") {
     systemProperty("spring.devtools.restart.enabled", "false")
 }
