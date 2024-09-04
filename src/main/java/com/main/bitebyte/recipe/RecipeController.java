@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.main.bitebyte.user.Role;
+import com.main.bitebyte.user.User;
+import com.main.bitebyte.user.UserRepository; // Ensure this import is present
 
 @RestController
 @RequestMapping("/api/recipes")
@@ -29,18 +32,22 @@ public class RecipeController {
     @Autowired
     private RecipeRepository recipeRepository;
 
-    @GetMapping
+    @Autowired
+    private UserRepository userRepository;
+
+    @GetMapping("/all")
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     public List<Recipe> getAllRecipes() {
-        logger.info("Fetching all recipes");
-        return recipeRepository.findAll();
-    }
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Optional<User> user = userRepository.findByUsername(authentication.getName());
 
-    @GetMapping("/public")
-    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
-    public List<Recipe> getAllPublicRecipes() {
-        logger.info("Fetching all public recipes");
-        return recipeRepository.findAll(); // In a real-world scenario, you might want to filter only public recipes
+        if (user.isPresent() && user.get().getRoles().stream().anyMatch(role -> role == Role.ADMIN)) {
+            logger.info("Fetching all recipes for admin");
+            return recipeRepository.findAll();
+        } else {
+            logger.info("Fetching public recipes and personal recipes for the current user");
+            return recipeRepository.findPublicAndPersonal(user.get());
+        }
     }
 
     @GetMapping("/{id}")
@@ -55,7 +62,7 @@ public class RecipeController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Recipe createRecipe(@RequestBody Recipe recipe) {
        
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
