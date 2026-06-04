@@ -36,7 +36,7 @@ public class RecipeController {
     private UserRepository userRepository;
 
     @GetMapping("/all")
-    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public List<Recipe> getAllRecipes() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> user = userRepository.findByUsername(authentication.getName());
@@ -51,7 +51,7 @@ public class RecipeController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<Recipe> getRecipeById(@PathVariable String id) {
         logger.info("Fetching recipe with id: {}", id);
         Optional<Recipe> recipe = recipeRepository.findById(id);
@@ -62,7 +62,7 @@ public class RecipeController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public Recipe createRecipe(@RequestBody Recipe recipe) {
        
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -73,7 +73,7 @@ public class RecipeController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Recipe> updateRecipe(@PathVariable String id, @RequestBody Recipe recipeDetails) {
         logger.info("Updating recipe with id: {}", id);
         Optional<Recipe> optionalRecipe = recipeRepository.findById(id);
@@ -83,6 +83,7 @@ public class RecipeController {
             recipe.setDescription(recipeDetails.getDescription());
             recipe.setIngredients(recipeDetails.getIngredients());
             recipe.setInstructions(recipeDetails.getInstructions());
+            recipe.setPreparationTime(recipeDetails.getPreparationTime());
             Recipe updatedRecipe = recipeRepository.save(recipe);
             logger.info("Recipe updated successfully");
             return ResponseEntity.ok(updatedRecipe);
@@ -93,7 +94,7 @@ public class RecipeController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteRecipe(@PathVariable String id) {
         logger.info("Deleting recipe with id: {}", id);
         Optional<Recipe> recipe = recipeRepository.findById(id);

@@ -1,0 +1,28 @@
+# Copy to application.properties and fill in your local values.
+# application.properties is gitignored and must not be committed.
+
+spring.data.mongodb.uri=mongodb://localhost:27017/bitebyte
+spring.data.mongodb.database=bitebyte
+spring.data.mongodb.auto-index-creation=false
+
+spring.ai.openai.api-key=${OPENAI_API_KEY:}
+spring.ai.openai.model=gpt-4o
+spring.ai.openai.urls.base=https://api.openai.com
+spring.ai.openai.urls.chat-completion=/v1/chat/completions
+
+# HS256 requires a key length >= 256 bits (32+ ASCII bytes).
+jwt.secret=local-dev-jwt-secret-do-not-use-in-production-32bytes!!
+# Token lifetime in milliseconds (default: 86400000 = 24 hours).
+jwt.expiration=86400000
+
+server.port=8080
+server.servlet.context-path=
+
+# Admin seed user password. Change this in production via environment variable.
+app.admin.password=admin123
+
+# Comma-separated list of allowed CORS origins. Use * to allow all (dev only).
+app.cors.allowed-origins=*
+
+# Set to true to drop and recreate the vector store collection on startup.
+app.reset-vector-store=false

@@ -35,9 +35,10 @@ out/
 
 ### VS Code ###
 .vscode/
-# Ignore application properties
+# Local secrets — never commit; use application.properties.example as the template
 src/main/resources/application.properties
 src/main/resources/application.properties-local
+!src/main/resources/application.properties.example
 
 # distribution folder
 /client/dist

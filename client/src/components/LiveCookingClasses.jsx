@@ -3,23 +3,35 @@ import axios from 'axios';
 
 const LiveCookingClasses = () => {
   const [classes, setClasses] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios.get('/api/live-classes')
+    axios.get('/api/live-cooking-classes')
       .then(response => {
         setClasses(response.data);
+        setError(null);
       })
       .catch(error => {
         console.error('There was an error fetching the live cooking classes!', error);
-      });
+        if (error.response && error.response.status === 401) {
+          setError('Your session has expired. Please log in again.');
+        } else {
+          setError('An error occurred while fetching live cooking classes. Please try again later.');
+        }
+      })
+      .finally(() => setLoading(false));
   }, []);
 
   return (
     <div>
       <h2>Live Cooking Classes</h2>
-      {classes.length === 0 ? (
+      {loading && <p>Loading classes...</p>}
+      {error && <div className="error-message">{error}</div>}
+      {!loading && !error && classes.length === 0 && (
         <p>No live cooking classes available.</p>
-      ) : (
+      )}
+      {!loading && !error && classes.length > 0 && (
         <ul>
           {classes.map(liveClass => (
             <li key={liveClass.id}>

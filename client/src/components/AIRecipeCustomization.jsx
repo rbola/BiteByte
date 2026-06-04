@@ -18,7 +18,7 @@ function AIRecipeCustomization() {
 
   const fetchRecipes = async () => {
     try {
-      const response = await axios.get('/api/recipes');
+      const response = await axios.get('/api/recipes/all');
       setRecipes(response.data);
     } catch (error) {
       console.error('Error fetching recipes:', error);

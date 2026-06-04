@@ -22,6 +22,12 @@
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   }
   
+  .recipe-card-prep-time {
+    font-size: 0.85rem;
+    color: #666;
+    margin-top: 6px;
+  }
+  
   .recipe-details-modal {
     position: fixed;
     top: 0;

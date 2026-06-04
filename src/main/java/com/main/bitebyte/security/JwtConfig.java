@@ -10,13 +10,13 @@ public class JwtConfig {
     private String jwtSecret;
 
     @Value("${jwt.expiration}")
-    private int jwtExpirationMs;
+    private long jwtExpirationMs;
 
     public String getJwtSecret() {
         return jwtSecret;
     }
 
-    public int getJwtExpirationMs() {
+    public long getJwtExpirationMs() {
         return jwtExpirationMs;
     }
 }

@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -25,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.main.bitebyte.security.JwtConfig;
 import com.main.bitebyte.security.JwtUtils;
 
 import io.jsonwebtoken.JwtException;
@@ -49,11 +49,8 @@ public class AuthController {
     @Autowired
     JwtUtils jwtUtils;
 
-    @Value("${jwt.expiration.ms}")
-    private long jwtExpirationMs;
-
-    @Value("${jwt.secret}")
-    private String jwtSecret;
+    @Autowired
+    JwtConfig jwtConfig;
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
@@ -72,10 +69,10 @@ public class AuthController {
 
             String jwt = Jwts.builder()
                     .setSubject(userDetails.getUsername())
-                    .claim("roles", roles)  // Add this line to include roles in the token
+                    .claim("roles", roles)
                     .setIssuedAt(new Date())
-                    .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
-                    .signWith(Keys.hmacShaKeyFor(jwtSecret.getBytes()))
+                    .setExpiration(new Date((new Date()).getTime() + jwtConfig.getJwtExpirationMs()))
+                    .signWith(Keys.hmacShaKeyFor(jwtConfig.getJwtSecret().getBytes()))
                     .compact();
 
             Map<String, Object> response = new HashMap<>();

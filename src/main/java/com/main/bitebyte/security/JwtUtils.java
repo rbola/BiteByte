@@ -1,7 +1,12 @@
 package com.main.bitebyte.security;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.crypto.SecretKey;
 
@@ -9,11 +14,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import com.main.bitebyte.security.JwtConfig;
-
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
@@ -65,5 +71,32 @@ public class JwtUtils {
         }
 
         return false;
+    }
+
+    public Collection<? extends GrantedAuthority> getAuthoritiesFromToken(String token) {
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(getSigningKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+
+        List<?> roles = claims.get("roles", List.class);
+        if (roles == null || roles.isEmpty()) {
+            logger.warn("No roles found in JWT token");
+            return Collections.emptyList();
+        }
+
+        List<String> flattenedRoles = roles.stream()
+                .flatMap(role -> role instanceof List ? ((List<?>) role).stream() : Stream.of(role))
+                .map(Object::toString)
+                .map(role -> role.replace("[", "").replace("]", ""))
+                .collect(Collectors.toList());
+
+        return flattenedRoles.stream()
+                .map(role -> {
+                    String prefixedRole = role.startsWith("ROLE_") ? role : "ROLE_" + role;
+                    return new SimpleGrantedAuthority(prefixedRole);
+                })
+                .collect(Collectors.toList());
     }
 }
