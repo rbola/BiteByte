@@ -1,0 +1,16 @@
+#!/bin/sh
+
+blocked_files="
+src/main/resources/application.properties
+src/main/resources/application.properties-local
+"
+
+for file in $blocked_files; do
+  if git diff --cached --name-only --diff-filter=ACM | grep -Fx "$file" >/dev/null; then
+    echo "Blocked: $file must not be committed."
+    echo "Use src/main/resources/application.properties.example as the template instead."
+    exit 1
+  fi
+done
+
+exit 0

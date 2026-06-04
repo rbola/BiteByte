@@ -10,11 +10,8 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @EnableMongoRepositories(basePackages = {
     "com.main.bitebyte.ai",
     "com.main.bitebyte.recipe",
-    "com.main.bitebyte.ecommerce",
-    "com.main.bitebyte.common",
     "com.main.bitebyte.livecooking",
-    "com.main.bitebyte.user",
-    "com.main.bitebyte.security"
+    "com.main.bitebyte.user"
 })
 public class BiteByteApplication {
 

@@ -1,6 +1,6 @@
 # BiteByte
 
-BiteByte is a react web app powered by a Spring AI and MongoDB.
+BiteByte is a full-stack recipe and live cooking platform built with React, Spring Boot, Spring AI and MongoDB.
 
 ![Demo of the app](/demobitebyte.gif)
 
@@ -8,170 +8,152 @@ BiteByte is a react web app powered by a Spring AI and MongoDB.
 
 - [Features](#features)
 - [Architecture](#architecture)
-- [Installation](#installation)
-- [Usage](#usage)
+- [Prerequisites](#prerequisites)
+- [Setup](#setup)
+- [Running the App](#running-the-app)
 - [API Endpoints](#api-endpoints)
 - [Contributing](#contributing)
 - [License](#license)
 
 ## Features
 
-- AI Recipe Customization using OpenAI
-- Add and View Recipes
-- Participate in Live Cooking Classes
-- User Authentication and Authorization
-- Dark and Light Theme Toggle
+- AI Recipe Customization powered by OpenAI
+- Browse and add recipes with nutritional info
+- Participate in live cooking classes
+- User authentication and authorization (JWT)
+- Dark and light theme toggle
 
 ## Architecture
 
-The project is divided into two main parts:
+The project is split into two parts:
 
-1. **Backend**: A modular monolithic Spring Boot application that handles the API and business logic. The backend is divided into the following modules:
-    - **ai**: Handles AI-related functionalities using OpenAI.
-    - **common**: Contains common utilities and configurations used across other modules.
-    - **livecooking**: Manages live cooking classes.
-    - **recipe**: Manages recipe-related functionalities.
-    - **security**: Handles user authentication and authorization.
-    - **user**: Manages user-related functionalities.
-    - **util**: Contains utility classes and methods.
+### Backend — Spring Boot (port 8080)
 
-2. **Frontend**: A React application that provides the user interface.
+A modular monolithic Spring Boot application with the following modules:
 
-### Technologies Used
+| Module | Responsibility |
+|---|---|
+| `ai` | OpenAI-powered recipe customization |
+| `common` | Shared utilities, web config, DB initializer |
+| `livecooking` | Live cooking class management |
+| `recipe` | Recipe CRUD |
+| `security` | JWT authentication filter |
+| `user` | User registration and login |
 
-- **Backend**:
-  - Java (Amazon Corretto)
-  - Spring Boot
-  - Spring AI
-  - MongoDB
-  - OpenAI API
+### Frontend — React + Vite (port 5173)
 
-- **Frontend**:
-  - React
-  - Vite
+A React SPA that proxies all `/api` and `/auth` requests to the backend.
 
-## Installation
+### Technologies
 
-### Prerequisites
+- Java 21 (Amazon Corretto), Spring Boot 3, Spring AI, MongoDB
+- React 18, Vite 4, React Router 6, Axios
 
-- [Node.js](https://nodejs.org/)
-- [npm](https://www.npmjs.com/)
-- [Amazon Corretto](https://aws.amazon.com/corretto/)
-- [Gradle](https://gradle.org/)
-- [MongoDB](https://www.mongodb.com/)
+## Prerequisites
 
-### Backend Setup
+- [Node.js](https://nodejs.org/) (v18+) and npm
+- [Amazon Corretto 21](https://aws.amazon.com/corretto/) or any JDK 21
+- [MongoDB](https://www.mongodb.com/) running locally on port 27017
+- An [OpenAI API key](https://platform.openai.com/api-keys)
 
-1. Clone the repository:
-    ```sh
-    git clone https://github.com/yourusername/BiteByte.git
-    cd BiteByte
-    ```
+## Setup
 
-2. Navigate to the backend directory:
-    ```sh
-    cd src/main/java/com/main/bitebyte
-    ```
+### 1. Clone the repository
 
-3. Build the project using Gradle:
-    ```sh
-    ./gradlew build
-    ```
+```sh
+git clone https://github.com/yourusername/BiteByte.git
+cd BiteByte
+```
 
-4. Run the Spring Boot application:
-    ```sh
-    ./gradlew bootRun
-    ```
+### 2. Configure environment variables
 
-5. Configure the application properties file:
-    ```properties
-    spring.data.mongodb.uri=mongodb+srv://<username>:<password>@<cluster>.umrcw.mongodb.net/?retryWrites=true&w=majority&appName=bitebyte
+Create the local env file (already gitignored):
 
-    spring.data.mongodb.database=bitebyte
-    spring.data.mongodb.auto-index-creation=false
+```sh
+mkdir -p .vscode
+echo "OPENAI_API_KEY=your-key-here" > .vscode/.env
+```
 
-    spring.ai.openai.api-key= <OpenAI Key>
-    spring.ai.openai.model=gpt-4o
-    spring.ai.openai.urls.base=https://api.openai.com
-    spring.ai.openai.urls.chat-completion=/v1/chat/completions
+This file is read automatically by `./gradlew bootRun` and by the VS Code / Cursor debugger launch config.
 
-    # JWT Configuration
-    jwt.secret= <JWT>
-    jwt.expiration=86400000
-    jwt.expiration.ms=3600000
+### 3. Enable the pre-commit hook (optional but recommended)
 
-    # Add this line
-    app.jwtSecret=${jwt.secret}
+Prevents local config files from being committed accidentally:
 
-    # Server configuration
-    server.port=8080
+```sh
+git config core.hooksPath .githooks
+```
 
-    # Disable context path
-    server.servlet.context-path=
+### 4. Install frontend dependencies
 
-    # Vector store configuration
-    spring.ai.vectorstore.name=vector_store
-    ```
+```sh
+cd client && npm install && cd ..
+```
 
-### Frontend Setup
+## Running the App
 
-1. Navigate to the client directory:
-    ```sh
-    cd client
-    ```
+Open two terminals from the project root:
 
-2. Install the dependencies:
-    ```sh
-    npm install
-    ```
+**Terminal 1 — Backend**
 
-3. Start the development server:
-    ```sh
-    npm start
-    ```
+```sh
+./gradlew bootRun
+```
 
-## Usage
+Spring Boot starts on [http://localhost:8080](http://localhost:8080). On first run the database is seeded with sample recipes and live cooking classes.
 
-1. Open your browser and navigate to `http://localhost:3000`.
-2. Sign up or sign in to your account.
-3. Use the navigation bar to access different features like adding recipes, viewing recipes, and participating in live cooking classes.
-4. Customize recipes using the AI Recipe Customization feature.
+**Terminal 2 — Frontend**
+
+```sh
+cd client && npm start
+```
+
+Vite starts on [http://localhost:5173](http://localhost:5173) by default (increments automatically if the port is in use — check the terminal output for the exact URL). API calls are proxied automatically to the backend.
 
 ## API Endpoints
 
 ### Authentication
 
-- `POST /api/auth/signup` - Sign up a new user
-- `POST /api/auth/signin` - Sign in an existing user
+| Method | Path | Description |
+|---|---|---|
+| POST | `/api/auth/signup` | Register a new user |
+| POST | `/api/auth/signin` | Sign in and receive a JWT |
 
 ### Recipes
 
-- `GET /api/recipes` - Get all recipes
-- `GET /api/recipes/{id}` - Get a specific recipe by ID
-- `POST /api/recipes` - Add a new recipe (Admin only)
-- `PUT /api/recipes/{id}` - Update a recipe (Admin only)
-- `DELETE /api/recipes/{id}` - Delete a recipe (Admin only)
+| Method | Path | Description |
+|---|---|---|
+| GET | `/api/recipes/all` | List all recipes (public + personal) |
+| GET | `/api/recipes/{id}` | Get a recipe by ID |
+| POST | `/api/recipes` | Add a recipe _(admin only)_ |
+| PUT | `/api/recipes/{id}` | Update a recipe _(admin only)_ |
+| DELETE | `/api/recipes/{id}` | Delete a recipe _(admin only)_ |
 
 ### Live Cooking Classes
 
-- `GET /api/live-classes` - Get all live cooking classes
-- `POST /api/live-classes` - Add a new live cooking class (Admin only)
+| Method | Path | Description |
+|---|---|---|
+| GET | `/api/live-cooking-classes` | List all classes |
+| POST | `/api/live-cooking-classes` | Add a class _(admin only)_ |
+| POST | `/api/live-cooking-classes/{id}/attend` | Attend a class |
 
 ### AI Recipe Customization
 
-- `POST /api/ai-customization` - Customize a recipe using AI
+| Method | Path | Description |
+|---|---|---|
+| POST | `/api/ai-recipe-customization` | Customise a recipe using AI |
+| POST | `/api/ai-recipe-customization/save` | Save a customised recipe to your account |
+| GET | `/api/ai-recipe-customization` | List all customisations |
+| GET | `/api/ai-recipe-customization/{id}` | Get a customisation by ID |
 
 ## Contributing
 
-Contributions are welcome! Please follow these steps to contribute:
-
 1. Fork the repository.
-2. Create a new branch (`git checkout -b feature/your-feature`).
-3. Make your changes.
-4. Commit your changes (`git commit -m 'Add some feature'`).
-5. Push to the branch (`git push origin feature/your-feature`).
-6. Open a pull request.
+2. Create a new branch: `git checkout -b feature/your-feature`
+3. Commit your changes: `git commit -m 'Add some feature'`
+4. Push to the branch: `git push origin feature/your-feature`
+5. Open a pull request.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.

@@ -12,7 +12,7 @@ import RecipeList from './components/RecipeList';
 import LiveCookingClasses from './components/LiveCookingClasses';
 import ViewRecipe from './components/ViewRecipe';
 
-axios.defaults.baseURL = 'http://localhost:8080';
+axios.defaults.baseURL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);

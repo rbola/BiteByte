@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import './UserHome.css';
 
 const UserHome = ({ userRole }) => {
+  const isDevEnvironment = import.meta.env.VITE_APP_ENV === 'development';
+
   return (
     <div>
       <div className="hero">
@@ -11,12 +13,16 @@ const UserHome = ({ userRole }) => {
       </div>
       <div className="options">
         <Link to="/recipes">View Recipes</Link>
-        <Link to="/live-classes">Live Cooking Classes</Link>
+        {isDevEnvironment && (
+          <Link to="/live-classes">Live Cooking Classes</Link>
+        )}
         <Link to="/ai-customization">AI Recipe Customization</Link>
         {userRole.includes('ADMIN') && (
           <>
             <Link to="/add-recipe">Add Recipe</Link>
-            <Link to="/add-live-class">Add Live Cooking Class</Link>
+            {isDevEnvironment && (
+              <Link to="/add-live-class">Add Live Cooking Class</Link>
+            )}
           </>
         )}
       </div>

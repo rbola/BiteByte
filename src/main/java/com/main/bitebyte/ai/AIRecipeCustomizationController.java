@@ -137,6 +137,16 @@ public class AIRecipeCustomizationController {
             }
         }
 
+        // Fall back to the original recipe's arrays if AI response could not be parsed
+        if (newRecipe.getIngredients() == null || newRecipe.getIngredients().length == 0) {
+            logger.warn("No 'Ingredients:' section found in AI response; falling back to original ingredients");
+            newRecipe.setIngredients(originalRecipe.getIngredients());
+        }
+        if (newRecipe.getInstructions() == null || newRecipe.getInstructions().length == 0) {
+            logger.warn("No 'Instructions:' section found in AI response; falling back to original instructions");
+            newRecipe.setInstructions(originalRecipe.getInstructions());
+        }
+
         // Copy other properties from the original recipe
         newRecipe.setTags(originalRecipe.getTags());
         newRecipe.setDifficulty(originalRecipe.getDifficulty());
@@ -155,10 +165,6 @@ public class AIRecipeCustomizationController {
         User currentUser = currentUserOptional.get();
         newRecipe.setUser(currentUser);
         newRecipe.setPersonal(true);
-
-        // Ensure ingredients and instructions are set
-        newRecipe.setIngredients(originalRecipe.getIngredients());
-        newRecipe.setInstructions(originalRecipe.getInstructions());
 
         Recipe savedRecipe = recipeRepository.save(newRecipe);
         logger.info("Saved customized recipe: {}", savedRecipe);

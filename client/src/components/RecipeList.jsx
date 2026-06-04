@@ -31,14 +31,18 @@ function RecipeList() {
 
   return (
     <div className="recipe-list-container">
-      <h2>Public Recipes</h2>
+      <h2>Recipes</h2>
       {error && <div className="error-message">{error}</div>}
-      {recipes.length === 0 && !error && <p>No public recipes found.</p>}
+      {recipes.length === 0 && !error && <p>No recipes found.</p>}
       <div className="recipe-grid">
         {recipes.map((recipe) => (
           <Link to={`/recipes/${recipe.id}`} key={recipe.id} className="recipe-card">
             <h3>{recipe.name}</h3>
             <p>{recipe.description ? recipe.description.substring(0, 100) + '...' : 'No description available'}</p>
+            {recipe.cookingTime > 0 &&
+              <p>⏳ Cooking: {recipe.cookingTime} mins</p>
+            }
+            {/* TODO: if preparationTime > 0, show prepTimeMinutes */}
           </Link>
         ))}
       </div>
