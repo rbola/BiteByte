@@ -6,7 +6,7 @@ BiteByte is a full-stack recipe and live cooking platform built with React, Spri
 
 ## Working with Cursor
 
-![Demo of the app](/Demo Cursor.mp4)
+![Demo of the app](/democursor.mp4)
 
 ## Table of Contents
 
