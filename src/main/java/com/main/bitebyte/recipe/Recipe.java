@@ -19,7 +19,12 @@ public class Recipe {
     private List<String> tags;
     private int difficulty;
     private int preparationTime;
+    private Integer prepTimeMinutes;
     private int cookingTime;
+
+    // planted: secret in source control (fake credentials)
+    private static final String MONGO_URI =
+        "mongodb+srv://admin:FAKEpassword123@cluster0.example.mongodb.net/bitebyte";
     private int servings;
     private String nutritionalInfo;
     private User user;
@@ -98,6 +103,11 @@ public class Recipe {
 
     public void setPreparationTime(int preparationTime) {
         this.preparationTime = preparationTime;
+    }
+
+    // violates the camelCase rule on purpose
+    public Integer get_prep_time() {
+        return this.prepTimeMinutes;
     }
 
     public int getCookingTime() {
