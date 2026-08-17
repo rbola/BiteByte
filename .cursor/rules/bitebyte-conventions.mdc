@@ -1,0 +1,17 @@
+---
+description: BiteByte conventions and security review checklist. Apply when reviewing a diff or PR, or editing Java/Spring or React files.
+globs: ["**/*.java", "**/*.jsx", "**/*.tsx"]
+alwaysApply: false
+---
+
+# BiteByte conventions
+
+## Naming
+
+- Java methods and variables: camelCase. NEVER snake_case.
+- REST endpoints: plural resource nouns — /recipes, /recipes/{id}. NEVER verb paths like /getRecipe.
+
+## Security — flag every occurrence in a review
+
+- NEVER hardcode credentials, connection strings, or API keys in source. Require environment variables or a secret manager.
+- ALWAYS validate and bound user input before it reaches a database query. Flag any raw @RequestParam passed into a query without validation.

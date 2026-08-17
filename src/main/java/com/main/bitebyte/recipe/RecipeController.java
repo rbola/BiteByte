@@ -15,8 +15,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.main.bitebyte.user.Role;
@@ -35,6 +39,9 @@ public class RecipeController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private MongoTemplate mongoTemplate;
+
     @GetMapping("/all")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public List<Recipe> getAllRecipes() {
@@ -48,6 +55,15 @@ public class RecipeController {
             logger.info("Fetching public recipes and personal recipes for the current user");
             return recipeRepository.findPublicAndPersonal(user.get());
         }
+    }
+
+    @GetMapping("/search")
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    public List<Recipe> search(@RequestParam String name) {
+        // planted: raw user input into a query, no validation or bounding
+        Query query = new Query();
+        query.addCriteria(Criteria.where("name").regex(name));
+        return mongoTemplate.find(query, Recipe.class);
     }
 
     @GetMapping("/{id}")
