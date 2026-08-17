@@ -1,6 +1,6 @@
 ---
 name: dependabot-review
-description: Do a real, context-aware security review of a Dependabot dependency-bump pull request — the kind of review GitHub Copilot's PR reviewer skips when the only changed file is a lockfile ("Copilot wasn't able to review any files in this pull request... Generated file"). Use this whenever the user asks to review, check, or triage a Dependabot PR, a "bump <package> from X to Y" PR, a lockfile-only dependency update, or says things like "review this dependency bump", "is this npm/pip/gem update safe to merge", "check this Dependabot PR", or pastes a Dependabot/Copilot PR notification. Produces an explicit merge/hold recommendation backed by the actual changelog, any CVEs fixed or introduced, and how the bumped package is really used in the target repo — not a blind approval.
+description: Do a real, context-aware security review of a Dependabot dependency-bump pull request. Use this whenever the user asks to review, check, or triage a Dependabot PR, a "bump <package> from X to Y" PR, a lockfile-only dependency update, or says things like "review this dependency bump", "is this npm/pip/gem update safe to merge", "check this Dependabot PR", or pastes a Dependabot/Copilot PR notification. Produces an explicit merge/hold recommendation backed by the actual changelog, any CVEs fixed or introduced, and how the bumped package is really used in the target repo — not a blind approval.
 metadata:
     version: "0.1"
 ---
